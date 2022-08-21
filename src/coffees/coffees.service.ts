@@ -36,10 +36,13 @@ export class CoffeesService {
   }
 
   update(id: string, updateCoffeeDto: any) {
-    const existingCoffee = this.findOne(id);
+    let existingCoffee = this.findOne(id);
 
     if (existingCoffee) {
-      // update coffee
+      existingCoffee = {
+        ...existingCoffee,
+        ...updateCoffeeDto,
+      };
     }
   }
 
