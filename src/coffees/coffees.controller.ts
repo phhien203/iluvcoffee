@@ -20,14 +20,12 @@ export class CoffeesController {
   findAll(@Query() paginationQuery: any) {
     // const { offset, limit } = paginationQuery;
 
-    // return `This action returns all coffees. Offset ${offset}, limit ${limit}`;
     return this.coffeesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    // return `This action returns #${id} coffee`;
-    return this.coffeesService.findOne(id);
+  findOne(@Param('id') id: number) {
+    return this.coffeesService.findOne(`${id}`);
   }
 
   @Post()
@@ -42,7 +40,6 @@ export class CoffeesController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    // return `This action remove #${id} coffee`;
     return this.coffeesService.remove(id);
   }
 }
