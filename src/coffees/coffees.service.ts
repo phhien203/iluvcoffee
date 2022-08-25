@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { Coffee } from './entities/coffee.entity';
+import { Flavor } from './entities/flavor.entity';
 
 @Injectable()
 export class CoffeesService {
@@ -27,14 +28,31 @@ export class CoffeesService {
   }
 
   async create(createCoffeeDto: CreateCoffeeDto) {
+    const { flavors, ...rest } = createCoffeeDto;
+
+    const flavorEntities = flavors.map((f: string) => {
+      const flavor = new Flavor();
+      flavor.name = f;
+      return flavor;
+    });
+
     const coffee = this.coffeeRepository.create(createCoffeeDto);
     return this.coffeeRepository.save(coffee);
   }
 
   async update(id: string, updateCoffeeDto: UpdateCoffeeDto) {
+    const { flavors, ...rest } = updateCoffeeDto;
+
+    const flavorEntities = flavors.map((f: string) => {
+      const flavor = new Flavor();
+      flavor.name = f;
+      return flavor;
+    });
+
     const coffee = await this.coffeeRepository.preload({
       id: +id,
-      ...updateCoffeeDto,
+      ...rest,
+      flavors: flavorEntities,
     });
 
     if (!coffee) {
