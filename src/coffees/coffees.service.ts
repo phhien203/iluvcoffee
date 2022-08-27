@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { Event } from 'src/events/entities/event.entity';
@@ -16,7 +17,10 @@ export class CoffeesService {
     @InjectRepository(Flavor)
     private readonly flavorRepository: Repository<Flavor>,
     private readonly dataSource: DataSource,
-  ) {}
+    private readonly configService: ConfigService,
+  ) {
+    console.log(this.configService.get('database.port'));
+  }
 
   async findAll(paginationQuery: PaginationDto) {
     const { limit, offset } = paginationQuery;

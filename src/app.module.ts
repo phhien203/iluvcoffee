@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoffeesModule } from './coffees/coffees.module';
+import appConfig from './config/app.config';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { CoffeesModule } from './coffees/coffees.module';
         DATABASE_HOST: Joi.required(),
         DATABASE_PORT: Joi.number().default(5432),
       }),
+      load: [appConfig],
     }),
     CoffeesModule,
     TypeOrmModule.forRoot({
